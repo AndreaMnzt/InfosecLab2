@@ -3,6 +3,7 @@ import numpy as np
 from utils import *
 from binning_encoder import *
 from binning_decoder import *
+from random_binning_encoder import *
 
 def main():
 
