@@ -1,7 +1,8 @@
 #import external functions from files 
 import numpy as np
 from utils import *
-
+from binning_encoder import *
+from binning_decoder import *
 
 def main():
 
@@ -33,14 +34,32 @@ def main():
     #  TASK 2: Implement the random binning encoder
     print("\n# Task 2 # Implement the random binning encoder:")
 
+    u_s = [ stringToBits('001'),
+            stringToBits('010'),
+            stringToBits('011'),
+            stringToBits('100'),
+            stringToBits('101'),
+            stringToBits('110'),
+            stringToBits('111')
+            ]
 
+    print("- The generated codewords are:")
+    for j in range(0,len(u_s)):
+        codewords = binningEncoder(u_s[j])
+        print("For message [%s]: [%s] and [%s]" %( bitsToString(u_s[j]), bitsToString(codewords[0]), bitsToString(codewords[1])))
 
     #########################################################
     #  TASK 3: Implement the random binning decoder
     print("\n# Task 3 # Implement the random binning decoder:")
     
+    print("- Without a channel: ")
+    print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u_s[2]), bitsToString(binningDecoder(binningEncoder(u_s[2])[0])[0]), str(binningDecoder(binningEncoder( u_s[2])[0])[1])))
+    print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u_s[4]), bitsToString(binningDecoder(binningEncoder(u_s[4])[0])[0]), str(binningDecoder(binningEncoder( u_s[4])[0])[1])))
+    print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u_s[6]), bitsToString(binningDecoder(binningEncoder(u_s[6])[0])[0]), str(binningDecoder(binningEncoder( u_s[6])[0])[1])))
     
-    
+    print("\n- With a channel:")
+    # TODO AFTER TASK1 IS DONE
+
     #########################################################
     #  TASK 4: Verify perfect secrecy
     print("\n# Task 4 # Verify perfect secrecy:")
