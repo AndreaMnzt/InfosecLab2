@@ -5,15 +5,22 @@ from utils import *
 
 def main():
 
-    print("Example to use utils function, I will comment this part on Tuesday")
-    print("Utils functions have a description, please if you have time comment your code")
-    print("- hexToBin('0xAB41') returns 1010101101000001 as a column vector:")
-    binary_string = hexToBin('0xAB41') #converts a hex number, given as a string, to an array of binary numbers
-    print(binary_string)
+    ### Introduction to utils function, i will comment this on tuesday
+    print("- Example to use utils function, I will comment this part on Tuesday")
+    print("- Utils functions have a description, please if you have time comment your code")
 
+    print('-- stringToBits(string_of_bits) function returns the numpy array for the given string of bits')  
+    print('-- e.g. the numpy array for the string "0001001" is: ')
+    bit_array = stringToBits('0001001')
+    print(bit_array)
+    print("Note: for all the internal calculation you should work with numpy arrays, since they provide us an 'algebraic sintax' to work with")
 
-    print("- binToHex([1,0,1,0,1,0,1,1,0,1,0,0,0,0,0,1] returns '0xAB41' as a string:")
-    print(binToHex(binary_string))
+    print('-- bitsToString(array_of_bits) function returns the string representation of a numpy bit array')
+    print('-- e.g. we can convert the above defined array to his string: ')
+    bit_string = bitsToString(bit_array)
+    print(bit_string)
+    
+    print("-- Note: bitsToString is useful to print the result after it's been used as numpy array for the computation")
 
     #########################################################
     #  TASK 1: Implement the uniform error channel
