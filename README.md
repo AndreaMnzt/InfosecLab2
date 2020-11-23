@@ -1,6 +1,6 @@
 - Task 1 
-- Task 2 
-- Task 3 
+- Task 2 - done (Filippo Giambartolomei)
+- Task 3 - done (Andrea Manzato)
 - Task 4 
 - Considerations and remarks
 - Task 5 
