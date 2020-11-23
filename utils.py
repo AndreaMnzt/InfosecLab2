@@ -1,5 +1,60 @@
 import numpy as np 
 
+def stringToBits(bit_string):
+    """convert a string of bits {0,1} to an numupy array of bit
+
+    Args:
+        bit_string (string): The string in input e.g. '0101001'
+
+    Returns:
+        bit array (np.array): a column vector representation of the given string
+    """
+    bit_string = np.array([ bit for bit in bit_string]) #convert the string to a list of bits
+    bit_string = bit_string.reshape((-1,1)) #reshape the output to a column vector
+    return bit_string
+
+def bitsToString(bit_array):
+    """Convert a numpy array of bits to his string representation
+
+    Args:
+        bit_array (np.array): numpy array of bits value {0,1}
+
+    Returns:
+        bit_string (string): string representation of the string
+    """
+
+
+    bit_string = '' #empty string initation
+    for bit in  bit_array: #add every bit of the array to the empty string 
+        bit_string = bit_string + str(bit[0])
+
+    return bit_string 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def hexToBin( hex_string):
     """Convert a hex strin to a binary np.array
     e.g. "AAAA". "0xAAAA"
