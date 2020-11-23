@@ -9,7 +9,7 @@ def stringToBits(bit_string):
     Returns:
         bit array (np.array): a column vector representation of the given string
     """
-    bit_string = np.array([ bit for bit in bit_string]) #convert the string to a list of bits
+    bit_string = np.array([ int(bit) for bit in bit_string]) #convert the string to a list of bits
     bit_string = bit_string.reshape((-1,1)) #reshape the output to a column vector
     return bit_string
 
