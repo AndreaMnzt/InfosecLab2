@@ -1,12 +1,15 @@
+   
 #import external functions from files 
 import numpy as np
 from utils import *
 from binning_encoder import *
 from binning_decoder import *
 from random_binning_encoder import *
+from wiretap_ch import *
+import matplotlib.pyplot as plt
 
 def main():
-
+    np.random.seed(0) # set random seed for replicability
     ### Introduction to utils function, i will comment this on tuesday
     print("- Example to use utils function, I will comment this part on Tuesday")
     print("- Utils functions have a description, please if you have time comment your code")
@@ -28,7 +31,68 @@ def main():
     #  TASK 1: Implement the uniform error channel
 
     print("\n# Task 1 # Implement the uniform error channel:")
-    
+    x = '1001000'
+    x_array = stringToBits(x)
+    loop_iterations = 10000
+    prob_y = np.zeros(4)
+    prob_z = np.zeros(4)
+    dict_y = dict()
+    dict_z = dict()
+    (possible_config_y, tot_config_y) = computeConfigDistrib(7, 1)
+    (possible_config_z, tot_config_z) = computeConfigDistrib(7, 3)
+    for i in range(0, loop_iterations):
+        (y, z, error_bits_y, error_bits_z) = wiretap_channel(np.reshape(x_array, -1))
+        y_string = bitsToString(y.reshape((-1,1)))
+        dict_y[y_string] = dict_y.get(y_string, 0) + 1
+
+        z_string = bitsToString(z.reshape((-1,1)))
+        dict_z[z_string] = dict_z.get(z_string, 0) + 1
+
+        prob_y[error_bits_y] += 1
+        prob_z[error_bits_z] += 1
+
+    # check that every configuration has been generated
+    cnt_gen_config_y = 0 # counter of distinct y configurations
+    cnt_gen_config_z = 0 # counter of distinct z configurations
+    for key in dict_y:
+        dict_y[key] /= loop_iterations
+        cnt_gen_config_y += 1
+        print("P[y = {} ] = {}".format(key, dict_y[key] / loop_iterations))
+    for key in dict_z:
+        dict_z[key] /= loop_iterations
+        cnt_gen_config_z += 1
+        print("P[z = {} ] = {}".format(key, dict_z[key] / loop_iterations))
+
+    print()
+    print("Total configurations for y: {}\tNumber of generated configurations: {}".format(int(tot_config_y), cnt_gen_config_y))
+    print("Total configurations for z: {}\tNumber of generated configurations: {}".format(int(tot_config_z), cnt_gen_config_z))
+    print()
+
+    # print the probability of 0, 1, 2, 3 errors in both y and z
+
+    prob_y /= loop_iterations
+    prob_z /= loop_iterations
+    for i in range(0,4):
+        print("P[{} errors in y] = {}".format(i, prob_y[i]))
+    print()
+    for i in range(0,4):
+        print("P[{} errors in z] = {}".format(i, prob_z[i]))
+
+    # two plots for checking uniformity of the outputs - the red line represents the uniform distribution
+
+    # the histogram of the data y
+    plt.bar(list(dict_y.keys()), dict_y.values(), color='b')
+    plt.axhline(y=1/tot_config_y, color='r', linestyle='-')
+    plt.xticks(x, " ")
+    plt.title("Frequency of possible outputs y")
+    plt.show()
+
+    # the histogram of the data z
+    plt.bar(list(dict_z.keys()), dict_z.values(), color='g')
+    plt.axhline(y=1/tot_config_z, color='r', linestyle='-')
+    plt.xticks(x, " ")
+    plt.title("Frequency of possible outputs z")
+    plt.show()
 
 
     #########################################################
