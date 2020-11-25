@@ -7,6 +7,7 @@ from binning_decoder import *
 from random_binning_encoder import *
 from wiretap_ch import *
 from task5 import *
+from send_to_channel import *
 import matplotlib.pyplot as plt
 import random
 
@@ -158,7 +159,7 @@ def main():
     #  TASK 5: Simulate transmission over a binary symmetric channel
     print("\n# Task 5 # Simulate transmission over a binary symmetric channel:")
     print("Number of errors on each output:")
-    error_legitimate_channel = 0.03
+    error_legitimate_channel = 0.1
     error_eavesdropper_channel = 0.1
     binary_sequence=np.zeros(5000)
     results = noise( binary_sequence, error_legitimate_channel)
@@ -166,17 +167,21 @@ def main():
     results = noise(binary_sequence, error_eavesdropper_channel)
     print(" For eavesdropper channel z: Expected errors =[%s], Generated errors =[%s]" %(int(len(binary_sequence)*error_eavesdropper_channel), results.errors))
     print("\nSimulating several trasmission between random binning encoder and legitimate decoder")
-    number_of_transmission=30;
-    array_codewords=np.zeros(number_of_transmission)
+    number_of_transmission=120; #need a multiple of 3
+    array_codewords=np.array([[1,1,1]])
+    array_decodewords=np.array([[1,1,1]])
+    print(array_codewords)
     bits_string=""
 
     for i in range(number_of_transmission):
         random_bits=stringToBits(str(bin(random.randint(0, 7))[2:].zfill(3)))
+        array_codewords=np.append(array_codewords, [random_bits.T[0]],0)
+        #print(array_codewords)
         codewords = randomBinningEncoder(random_bits)
         codewords=codewords.T[0]
         codewords = ''.join(map(str, codewords))
         bits_string+=codewords
-    print(bits_string)
+    #print(bits_string)
     string_with_errors=noise(stringToBits(bits_string), error_legitimate_channel)
     counter=0;
     for i in range(number_of_transmission):
@@ -184,9 +189,22 @@ def main():
         for y in range(7):
             to_be_decrypted+=str((string_with_errors.array.T[0])[counter])
             counter+=1
-        received_codeword=sendToChannelY(to_be_decrypted)[0]
+        #print(to_be_decrypted)
+        received_codeword=stringToBits(to_be_decrypted)
+        #print(received_codeword)
         decoded_u=binningDecoder(received_codeword)[0]
-        print(decoded_u)
+        array_decodewords=np.append(array_decodewords, [decoded_u.T[0]],0)
+    counter_errors=0
+    counter_correct=0
+    for i in range(1,number_of_transmission):
+        if (array_codewords[i]==array_decodewords[i]).all():
+            #print("CORRECT!! ----> codeword =[%s], decodeword =[%s]"%(array_codewords[i] ,array_decodewords[i]))
+            counter_correct+=1
+        else:
+            counter_errors +=1
+            print("ERROR!!---> codeword =[%s], decodeword =[%s]"%(array_codewords[i] ,array_decodewords[i]))
+    print("\n Number of correct pair: =[%s], Number of wrong pair= =[%s], Error rate= =[%s]"%(counter_correct, counter_errors, counter_errors/counter_correct))
+    #the error rate seems to be 3x of the error rate of the channel, it makes sense since each codeword is 3 bits long so it has 3x the probability to be wrong because 3 bits can be flipped.
 
 
 
