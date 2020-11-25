@@ -127,6 +127,7 @@ def main():
     print("\n- With a channel:")
     u = u_s[2]
     c = randomBinningEncoder(u)
+
     y = wiretap_channel(c.T)
     d,e = binningDecoder(y[0].T)
 
@@ -165,21 +166,27 @@ def main():
     results = noise(binary_sequence, error_eavesdropper_channel)
     print(" For eavesdropper channel z: Expected errors =[%s], Generated errors =[%s]" %(int(len(binary_sequence)*error_eavesdropper_channel), results.errors))
     print("\nSimulating several trasmission between random binning encoder and legitimate decoder")
-    number_of_transmission=300;
-    array_codewords=[]
+    number_of_transmission=30;
+    array_codewords=np.zeros(number_of_transmission)
     bits_string=""
 
     for i in range(number_of_transmission):
-        random_bits=bin(random.randint(0, 7))[2:].zfill(3)
+        random_bits=stringToBits(str(bin(random.randint(0, 7))[2:].zfill(3)))
         codewords = randomBinningEncoder(random_bits)
-        print(codewords)
-        array_codewords[i]=codewords
-    for i in range(len(array_codewords)):
-        bits_string+=array_codewords[i]
-    string_with_errors=noise(bits_string, error_legitimate_channel)
-    print(string_with_errors)
-    #for i in range(len(string_with_errors))
-
+        codewords=codewords.T[0]
+        codewords = ''.join(map(str, codewords))
+        bits_string+=codewords
+    print(bits_string)
+    string_with_errors=noise(stringToBits(bits_string), error_legitimate_channel)
+    counter=0;
+    for i in range(number_of_transmission):
+        to_be_decrypted=""
+        for y in range(7):
+            to_be_decrypted+=str((string_with_errors.array.T[0])[counter])
+            counter+=1
+        received_codeword=sendToChannelY(to_be_decrypted)[0]
+        decoded_u=binningDecoder(received_codeword)[0]
+        print(decoded_u)
 
 
 
