@@ -196,7 +196,7 @@ def main():
         array_decodewords=np.append(array_decodewords, [decoded_u.T[0]],0)
     counter_errors=0
     counter_correct=0
-    for i in range(1,number_of_transmission):
+    for i in range(1,number_of_transmission+1):
         if (array_codewords[i]==array_decodewords[i]).all():
             #print("CORRECT!! ----> codeword =[%s], decodeword =[%s]"%(array_codewords[i] ,array_decodewords[i]))
             counter_correct+=1
