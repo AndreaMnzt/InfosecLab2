@@ -123,9 +123,29 @@ def main():
     print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u_s[2]), bitsToString(binningDecoder(binningEncoder(u_s[2])[0])[0]), str(binningDecoder(binningEncoder( u_s[2])[0])[1])))
     print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u_s[4]), bitsToString(binningDecoder(binningEncoder(u_s[4])[0])[0]), str(binningDecoder(binningEncoder( u_s[4])[0])[1])))
     print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u_s[6]), bitsToString(binningDecoder(binningEncoder(u_s[6])[0])[0]), str(binningDecoder(binningEncoder( u_s[6])[0])[1])))
-    
+
     print("\n- With a channel:")
-    # TODO AFTER TASK1 IS DONE
+    u = u_s[2]
+    c = randomBinningEncoder(u)
+    y = wiretap_channel(c.T)
+    d,e = binningDecoder(y[0].T)
+
+    print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u), bitsToString(d),str(e)))
+
+    u = u_s[4]
+    c = randomBinningEncoder(u)
+    y = wiretap_channel(c.T)
+    d, e = binningDecoder(y[0].T)
+
+    print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u), bitsToString(d), str(e)))
+
+    u = u_s[6]
+    c = randomBinningEncoder(u)
+    y = wiretap_channel(c.T)
+    d, e = binningDecoder(y[1].T)
+    print(c)
+    print(y)
+    print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u), bitsToString(d), str(e)))
 
     #########################################################
     #  TASK 4: Verify perfect secrecy
