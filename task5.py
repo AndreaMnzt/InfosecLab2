@@ -2,14 +2,10 @@ import numpy as np
 import math as m
 import random as r
 
-
-def task_5(message, error_bob, error_eve):
-    bob_message = noise(message, error_bob)
-    eve_message = noise(message, error_eve)
-    # print(bob_message)
-    #print(len(bob_message))
-    return np.vstack((bob_message, eve_message))
-
+class Results:
+    def __init__(self, array, errors):
+        self.array = array
+        self.errors = errors
 
 def noise(message, error_user):
     mean_user = len(message) * error_user
@@ -28,7 +24,6 @@ def noise(message, error_user):
             flag_array[position] = -1
         else:
             i = i - 1
-    return user_message
+    return Results(user_message, x)
 
 
-#print(task_5(np.repeat(np.array([0, 1]), 1000), 0.001, 0.001))

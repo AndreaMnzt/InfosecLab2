@@ -8,6 +8,7 @@ from random_binning_encoder import *
 from wiretap_ch import *
 from task5 import *
 import matplotlib.pyplot as plt
+import random
 
 def main():
     np.random.seed(0) # set random seed for replicability
@@ -135,10 +136,34 @@ def main():
     #########################################################
     #  TASK 5: Simulate transmission over a binary symmetric channel
     print("\n# Task 5 # Simulate transmission over a binary symmetric channel:")
-    print(task_5(np.repeat(np.array([0, 1]), 1000), 0.001, 0.001))
-    
-    
-    
+    print("Number of errors on each output:")
+    error_legitimate_channel = 0.03
+    error_eavesdropper_channel = 0.1
+    binary_sequence=np.zeros(5000)
+    results = noise( binary_sequence, error_legitimate_channel)
+    print(" For legitimate channel y: Expected errors =[%s], Generated errors =[%s]" %(int(len(binary_sequence)*error_legitimate_channel), results.errors))
+    results = noise(binary_sequence, error_eavesdropper_channel)
+    print(" For eavesdropper channel z: Expected errors =[%s], Generated errors =[%s]" %(int(len(binary_sequence)*error_eavesdropper_channel), results.errors))
+    print("\nSimulating several trasmission between random binning encoder and legitimate decoder")
+    number_of_transmission=300;
+    array_codewords=[]
+    bits_string=""
+
+    for i in range(number_of_transmission):
+        random_bits=bin(random.randint(0, 7))[2:].zfill(3)
+        codewords = randomBinningEncoder(random_bits)
+        print(codewords)
+        array_codewords[i]=codewords
+    for i in range(len(array_codewords)):
+        bits_string+=array_codewords[i]
+    string_with_errors=noise(bits_string, error_legitimate_channel)
+    print(string_with_errors)
+    #for i in range(len(string_with_errors))
+
+
+
+
+
     #########################################################
     #  TASK 6: Evaluate the system security over the wiretap BSC
     print("\n# Task 6 # Evaluate the system security over the wiretap BSC:")
