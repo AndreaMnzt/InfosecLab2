@@ -6,6 +6,7 @@ from binning_encoder import *
 from binning_decoder import *
 from random_binning_encoder import *
 from wiretap_ch import *
+from task5 import *
 import matplotlib.pyplot as plt
 
 def main():
@@ -134,6 +135,7 @@ def main():
     #########################################################
     #  TASK 5: Simulate transmission over a binary symmetric channel
     print("\n# Task 5 # Simulate transmission over a binary symmetric channel:")
+    print(task_5(np.repeat(np.array([0, 1]), 1000), 0.001, 0.001))
     
     
     
