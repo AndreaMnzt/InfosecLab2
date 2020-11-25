@@ -29,14 +29,14 @@ def binningDecoder(y):
     for j in range(0,len(u_s)):
         codewords = binningEncoder(u_s[j]) #generate the codewords
         for codeword in codewords:  # and for every codeword
-            res = np.logical_xor(codeword, y)  # find where there are errors in y wrt the codeword 
-            errors = np.sum(res)                # find how many errors there are
-
+            res = np.logical_xor(codeword, y)  # find where there are errors in y wrt the codeword
+            errors = np.sum(res,axis=0)            # find how many errors there are
             if errors < min_hamming_distance: #if we have the min number of errors
                 min_hamming_distance = errors   #min hamming distance is errors 
                 best_u = u_s[j]                 #and we find the most probable trasmitted message
 
     return best_u, min_hamming_distance
 
+#print(binningDecoder(binningEncoder(stringToBits('100'))[0]))
 
 
