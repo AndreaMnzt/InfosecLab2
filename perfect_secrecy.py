@@ -11,6 +11,13 @@ def main():
     simulation(print_results_of_simulation = True)
 
 def simulation(print_results_of_simulation = True):
+    """run a simulation on the frequency of the keyword at Z
+
+    Args:
+        print_results_of_simulation (bool, optional): Boolean to choose if you want to print the results.
+        Defaults to True.
+    """
+
     _, Z_cardinality = computeConfigDistrib(7,3)
     Z_cardinality = int(Z_cardinality)
     u_s = [ stringToBits('001'),
@@ -59,6 +66,16 @@ def simulation(print_results_of_simulation = True):
 
 
 def computeConfigDistrib(length_of_codeword, max_errors):
+    """Compute the number of configuration of a bit mask to intruduce errors in a codeword 
+
+    Args:
+        length_of_codeword (int): lenght of a bit codeword
+        max_errors (int): max number of errors to introduce in a codeword, depends on channel
+
+    Returns:
+        list: [0]: (array) where at index i there is number of possible configuration with i max errors
+              [1]: (int) sum of all the possible configurations with max_errors
+    """
     possible_config = np.zeros(max_errors+1) #at index i number of possible configuration wirg i errors
 
     for i in range(0, max_errors+1):
