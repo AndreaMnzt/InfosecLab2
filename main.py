@@ -10,6 +10,7 @@ from task5 import *
 from send_to_channel import *
 import matplotlib.pyplot as plt
 import random
+from perfect_secrecy import *
 
 def main():
     np.random.seed(0) # set random seed for replicability
@@ -149,7 +150,8 @@ def main():
     #  TASK 4: Verify perfect secrecy
     print("\n# Task 4 # Verify perfect secrecy:")
     
-    
+    #*#*#* REMOVE THE COMMENT ON NEXT LINE TO RUN THE SIMULATION 
+    #simulation(print_results_of_simulation=True)
     
     #########################################################
     #  TASK 5: Simulate transmission over a binary symmetric channel
