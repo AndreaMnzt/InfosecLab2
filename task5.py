@@ -7,14 +7,14 @@ class Results:
         self.array = array
         self.errors = errors
 
-def noise(message, error_user):
-    mean_user = len(message) * error_user
-    variance_user = mean_user * (1 - error_user)
-    standard_dev_user = m.sqrt(variance_user)
-    number_errors_user = np.random.normal(mean_user, standard_dev_user)
-    user_message = message
+def BSC(message, error):
+    mean = len(message) * error
+    variance = mean * (1 - error)
+    standard_dev = m.sqrt(variance)
+    number_errors = np.random.normal(mean, standard_dev)
+    user_message = np.array(message)
     flag_array = np.zeros(len(message))
-    x = int(number_errors_user) if (number_errors_user - int(number_errors_user)) < 0.5 else int(number_errors_user) + 1
+    x = int(number_errors) if (number_errors - int(number_errors)) < 0.5 else int(number_errors) + 1
     x = 0 if x < 0 else x
     #print(x)
     for i in range(x):
