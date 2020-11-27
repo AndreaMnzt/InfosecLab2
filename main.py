@@ -10,25 +10,24 @@ from task5 import *
 from send_to_channel import *
 import matplotlib.pyplot as plt
 import random
+from perfect_secrecy import *
 
 def main():
     np.random.seed(0) # set random seed for replicability
-    ### Introduction to utils function, i will comment this on tuesday
-    print("- Example to use utils function, I will comment this part on Tuesday")
-    print("- Utils functions have a description, please if you have time comment your code")
-
-    print('-- stringToBits(string_of_bits) function returns the numpy array for the given string of bits')  
-    print('-- e.g. the numpy array for the string "0001001" is: ')
-    bit_array = stringToBits('0001001')
-    print(bit_array)
-    print("Note: for all the internal calculation you should work with numpy arrays, since they provide us an 'algebraic sintax' to work with")
-
-    print('-- bitsToString(array_of_bits) function returns the string representation of a numpy bit array')
-    print('-- e.g. we can convert the above defined array to his string: ')
-    bit_string = bitsToString(bit_array)
-    print(bit_string)
     
-    print("-- Note: bitsToString is useful to print the result after it's been used as numpy array for the computation")
+    ### Introduction to utils function, i will comment this on tuesday
+    #print("- Example to use utils function, I will comment this part on Tuesday")
+    #print("- Utils functions have a description, please if you have time comment your code")
+    #print('-- stringToBits(string_of_bits) function returns the numpy array for the given string of bits')  
+    #print('-- e.g. the numpy array for the string "0001001" is: ')
+    #bit_array = stringToBits('0001001')
+    #print(bit_array)
+    #print("Note: for all the internal calculation you should work with numpy arrays, since they provide us an 'algebraic sintax' to work with")
+    #print('-- bitsToString(array_of_bits) function returns the string representation of a numpy bit array')
+    #print('-- e.g. we can convert the above defined array to his string: ')
+    #bit_string = bitsToString(bit_array)
+    #print(bit_string)
+    #print("-- Note: bitsToString is useful to print the result after it's been used as numpy array for the computation")
 
     #########################################################
     #  TASK 1: Implement the uniform error channel
@@ -128,32 +127,31 @@ def main():
     print("\n- With a channel:")
     u = u_s[2]
     c = randomBinningEncoder(u)
-
-    y = wiretap_channel(c.T)
-    d,e = binningDecoder(y[0].T)
+    y =  sendToChannelY(c)[0]
+    d,e = binningDecoder(y)
 
     print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u), bitsToString(d),str(e)))
 
     u = u_s[4]
     c = randomBinningEncoder(u)
-    y = wiretap_channel(c.T)
-    d, e = binningDecoder(y[0].T)
+    y =  sendToChannelY(c)[0]
+    d,e = binningDecoder(y)
 
     print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u), bitsToString(d), str(e)))
 
     u = u_s[6]
     c = randomBinningEncoder(u)
-    y = wiretap_channel(c.T)
-    d, e = binningDecoder(y[1].T)
-    print(c)
-    print(y)
+    y =  sendToChannelY(c)[0]
+    d,e = binningDecoder(y)
+    
     print("For the message [%s] the decodified message is [%s], with [%s] corrected errors" %(bitsToString(u), bitsToString(d), str(e)))
 
     #########################################################
     #  TASK 4: Verify perfect secrecy
     print("\n# Task 4 # Verify perfect secrecy:")
     
-    
+    #*#*#* REMOVE THE COMMENT ON NEXT LINE TO RUN THE SIMULATION 
+    #simulation(print_results_of_simulation=True)
     
     #########################################################
     #  TASK 5: Simulate transmission over a binary symmetric channel
