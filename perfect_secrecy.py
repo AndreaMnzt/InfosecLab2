@@ -5,10 +5,82 @@ from random_binning_encoder import *
 from send_to_channel import *
 from binning_decoder import *
 import matplotlib.pyplot as plt
-
+import pandas as pd
+import seaborn as sns
+#from mpl_toolkits.mplot3d import Axes3D
 
 def main():
-    simulation(print_results_of_simulation = True)
+    pdf_computation(simulation(print_results_of_simulation=False))
+    #simulation(print_results_of_simulation = True)
+
+def pdf_computation(simulation_results, print_pdf=True):
+    #compute joint pdf
+    
+    dataframes = []
+    #sort codewords/frequency dictionaries according to codewords
+    for u in simulation_results.keys():
+        dictionary_of_u = simulation_results[u]
+        simulation_results[u] = {k: dictionary_of_u[k] for k in sorted(dictionary_of_u)} #sorted(dictionary_of_u.keys())
+        
+
+        #print(simulation_results[u])
+        #create a pandas dataframe for the joint pdf
+        df = pd.DataFrame(simulation_results[u], index = [u])
+        #print(df)
+        dataframes.append(df)
+        
+    joint_pdf = pd.concat(dataframes)
+    
+    ## normalize pdf
+    joint_pdf = joint_pdf/ np.sum(joint_pdf.sum(axis = 0).to_numpy())
+
+
+
+    #sns.jointplot(data=joint_pdf, kind="hist")
+    #plt.show()
+    print(joint_pdf)
+    #matplotlib.pyplot.hist2d(joint_pdf)
+    
+    #fig = plt.figure()
+    #ax = fig.add_subplot(111, projection='3d')
+    #ax.scatter(np.array(range(7)), np.array(range(128)), joint_pdf.to_numpy())
+    #plt.show()
+
+    ############# MARGINAL DISTRIBUTION
+    p_z = joint_pdf.sum(axis = 0).to_dict()
+    p_u = joint_pdf.sum(axis = 1).to_dict()
+    
+    #print(p_z)
+    #print(p_u)
+
+    # Mutual information:
+    I = 0
+    for u in p_u.keys():
+        for codeword in p_z.keys():
+         
+         joint_p = joint_pdf.loc[u,codeword]
+         I += joint_p *np.log2( joint_p / (p_u[u]*p_z[codeword])  )   
+
+    if (print_pdf):
+        print("Joint pdf")
+        print(joint_pdf)
+        
+        print("Marginal pdf of u")
+
+        ax1=plt.subplot(2,1,1)
+        ax1.bar(p_u.keys(), p_u.values())
+       
+
+        print("Marginal pdf of z")
+        ax2=plt.subplot(2,1,2)
+        
+        ax2.bar(p_z.keys(), p_z.values())
+        plt.show()
+
+
+        print("Mutual Information: " + str(I))
+
+    return joint_pdf, p_u, p_z, I
 
 def simulation(print_results_of_simulation = True):
     """run a simulation on the frequency of the keyword at Z
@@ -61,6 +133,8 @@ def simulation(print_results_of_simulation = True):
                 
         plt.suptitle("Frequency of received codewords for Z")
         plt.show()
+    
+    return dict_u_codewords
 
 
 
