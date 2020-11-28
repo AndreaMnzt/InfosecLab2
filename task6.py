@@ -9,13 +9,15 @@ import pandas as pd
 #import seaborn as sns
 #from mpl_toolkits.mplot3d import Axes3D
 from task5 import * #bsc
-def main():
-    
-    pdf_computation(simulation(print_results_of_simulation=False), print_pdf=True)
+def task6():
+    d_simulation_results, deltas= simulation(print_results_of_simulation=False)
+
+    pdf_computation(d_simulation_results, deltas, print_pdf=True)
     #simulation(print_results_of_simulation = False)
 
-def pdf_computation(e_simulation_results, print_pdf=True):
-    for simulation_results in e_simulation_results:
+def pdf_computation(d_simulation_results, deltas, print_pdf=True):
+    mutual_information=[]
+    for i,simulation_results in enumerate(d_simulation_results):
         #compute joint pdf
         
         dataframes = []
@@ -30,17 +32,17 @@ def pdf_computation(e_simulation_results, print_pdf=True):
             df = pd.DataFrame(simulation_results[u], index = [u])
             #print(df)
             dataframes.append(df)
-            
+
+        print(i)
         joint_pdf = pd.concat(dataframes)
-        
+
         ## normalize pdf
         joint_pdf = joint_pdf/ np.sum(joint_pdf.sum(axis = 0).to_numpy())
 
 
-
         #sns.jointplot(data=joint_pdf, kind="hist")
         #plt.show()
-        print(joint_pdf)
+        #print(joint_pdf)
         #matplotlib.pyplot.hist2d(joint_pdf)
         
         #fig = plt.figure()
@@ -61,7 +63,8 @@ def pdf_computation(e_simulation_results, print_pdf=True):
             for codeword in p_z.keys():
             
                 joint_p = joint_pdf.loc[u,codeword]
-                I += joint_p *np.log2( joint_p / (p_u[u]*p_z[codeword])  )   
+                I += joint_p *np.log2( joint_p / (p_u[u]*p_z[codeword])  )
+        mutual_information.append(I)
 
         if (print_pdf):
             print("Joint pdf")
@@ -81,6 +84,12 @@ def pdf_computation(e_simulation_results, print_pdf=True):
 
 
             print("Mutual Information: " + str(I))
+
+    plt.plot(deltas, mutual_information)
+    plt.title("Mutual information")
+    plt.xlabel("Delta")
+    plt.ylabel("I(u;z)")
+    plt.show()
 
     return joint_pdf, p_u, p_z, I
 
@@ -105,10 +114,11 @@ def simulation(print_results_of_simulation = True):
             ]
 
     #simulation
-    number_of_simulations = 20 #100*Z_cardinality;
-    eps_simulations = []
-    epsilons = np.linspace(0, 0.5, number_of_simulations)
-    for epsilon in epsilons:
+    number_of_simulations = 100*Z_cardinality;
+    delt_simulations = []
+    mutual_information=[]
+    deltas = np.linspace(0.2, 0.5, 20)
+    for delta in deltas:
         dict_u_codewords = {} #dictionary with key = u and value = dictianary of codewords and their frequency
         for u_index in range(len(u_s)): #for every message 
         
@@ -116,7 +126,7 @@ def simulation(print_results_of_simulation = True):
             
             for sim_index in range(number_of_simulations): # do 100*|Z| simulations, in which:
                 codeword = randomBinningEncoder(u_s[u_index]) # compute the codeword to trasmit
-                rec_codeword = BSC(codeword, epsilon).array
+                rec_codeword = BSC(codeword, delta).array
                 #rec_codeword = sendToChannelZ(codeword)[0] #trasmit the codeword
                 
                 #now we add the codeword to a dictionary with codeword and number of occurrance
@@ -129,7 +139,7 @@ def simulation(print_results_of_simulation = True):
             #to the dictionary of key = u and value = dictionary dict_codeword_frequency for u
             dict_u_codewords[bitsToString(u_s[u_index])] = dict_codeword_frequency
         
-        eps_simulations.append(dict_u_codewords)
+        delt_simulations.append(dict_u_codewords)
         
 
     ##### print
@@ -145,7 +155,7 @@ def simulation(print_results_of_simulation = True):
     #    plt.suptitle("Frequency of received codewords for Z")
     #    plt.show()
     
-    return eps_simulations
+    return delt_simulations, deltas
 
 
 

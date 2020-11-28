@@ -28,7 +28,7 @@ def BSC(message, error):
             i = i - 1
     return Results(user_message, number_errors_binomial)
 
-    #np.random.choice(n, size=error_bits, replace=False)
+    #np.random.choice(n, sie=zerror_bits, replace=False)
 
 
 

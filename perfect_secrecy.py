@@ -11,7 +11,7 @@ import pandas as pd
 
 def main():
     
-    #pdf_computation(simulation(print_results_of_simulation=False), print_pdf=False)
+    pdf_computation(simulation(print_results_of_simulation=False), print_pdf=False)
     #simulation(print_results_of_simulation = True)
 
 def pdf_computation(simulation_results, print_pdf=True):
