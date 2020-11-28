@@ -6,11 +6,12 @@ from send_to_channel import *
 from binning_decoder import *
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
+#import seaborn as sns
 #from mpl_toolkits.mplot3d import Axes3D
 
 def main():
-    pdf_computation(simulation(print_results_of_simulation=False))
+    
+    #pdf_computation(simulation(print_results_of_simulation=False), print_pdf=False)
     #simulation(print_results_of_simulation = True)
 
 def pdf_computation(simulation_results, print_pdf=True):
@@ -92,7 +93,8 @@ def simulation(print_results_of_simulation = True):
 
     _, Z_cardinality = computeConfigDistrib(7,3)
     Z_cardinality = int(Z_cardinality)
-    u_s = [ stringToBits('001'),
+    u_s = [ stringToBits('000'),
+            stringToBits('001'),
             stringToBits('010'),
             stringToBits('011'),
             stringToBits('100'),
@@ -124,8 +126,8 @@ def simulation(print_results_of_simulation = True):
     ##### print
     if print_results_of_simulation:
         
-        for figure_index in range(1,7+1):
-            ax1=plt.subplot(7, 1, figure_index)
+        for figure_index in range(1,8+1):
+            ax1=plt.subplot(8, 1, figure_index)
             dictionary_to_plot = dict_u_codewords[bitsToString(u_s[figure_index-1])]
             ax1.bar(dictionary_to_plot.keys(),dictionary_to_plot.values())
             ax1.get_xaxis().set_visible(False)
