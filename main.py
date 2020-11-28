@@ -13,7 +13,7 @@ import random
 from perfect_secrecy import *
 
 def main():
-    np.random.seed(0) # set random seed for replicability
+    #np.random.seed(0) # set random seed for replicability
     
     ### Introduction to utils function, i will comment this on tuesday
     #print("- Example to use utils function, I will comment this part on Tuesday")
@@ -158,14 +158,14 @@ def main():
     print("\n# Task 5 # Simulate transmission over a binary symmetric channel:")
     print("Number of errors on each output:")
     error_legitimate_channel = 0.1
-    error_eavesdropper_channel = 0.1
+    error_eavesdropper_channel = 0.3
     binary_sequence=np.zeros(5000)
     results = BSC( binary_sequence, error_legitimate_channel)
     print(" For legitimate channel y: Expected errors =[%s], Generated errors =[%s]" %(int(len(binary_sequence)*error_legitimate_channel), results.errors))
     results = BSC(binary_sequence, error_eavesdropper_channel)
     print(" For eavesdropper channel z: Expected errors =[%s], Generated errors =[%s]" %(int(len(binary_sequence)*error_eavesdropper_channel), results.errors))
     print("\nSimulating several trasmission between random binning encoder and legitimate decoder")
-    number_of_transmission=120; #need a multiple of 3
+    number_of_transmission=30; #need a multiple of 3
     array_codewords=np.array([[1,1,1]])
     array_decodewords=np.array([[1,1,1]])
     #print(array_codewords)
