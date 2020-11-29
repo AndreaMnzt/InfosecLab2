@@ -12,7 +12,8 @@ def binningDecoder(y):
         list: first element is the most probable message
             second element is the number of corrected bits
     """
-    u_s = [ stringToBits('001'),
+    u_s = [ stringToBits('000'),
+            stringToBits('001'),
             stringToBits('010'),
             stringToBits('011'),
             stringToBits('100'),

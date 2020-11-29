@@ -13,7 +13,7 @@ def BSC(message, error):
 
     user_message = np.array(message)
 
-    errors_array=np.random.choice(len(message)-1, number_errors_binomial, replace=False)
+    errors_array=np.random.choice(len(message), number_errors_binomial, replace=False)
     for i in range(len(errors_array)):
         index=errors_array[i]
         user_message[index] = 1 if user_message[index] == 0 else 0

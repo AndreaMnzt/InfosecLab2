@@ -10,7 +10,7 @@ from task5 import *
 from send_to_channel import *
 import matplotlib.pyplot as plt
 import random
-from perfect_secrecy import *
+import perfect_secrecy
 from task6 import *
 
 def main():
@@ -102,7 +102,8 @@ def main():
     #  TASK 2: Implement the random binning encoder
     print("\n# Task 2 # Implement the random binning encoder:")
 
-    u_s = [ stringToBits('001'),
+    u_s = [ stringToBits('000'),
+            stringToBits('001'),
             stringToBits('010'),
             stringToBits('011'),
             stringToBits('100'),
@@ -152,8 +153,10 @@ def main():
     print("\n# Task 4 # Verify perfect secrecy:")
     
     #*#*#* REMOVE THE COMMENT ON NEXT LINE TO RUN THE SIMULATION 
-    #simulation(print_results_of_simulation=True)
+    simulation_results = perfect_secrecy.simulation(print_results_of_simulation=True)
+    perfect_secrecy.pdf_computation(simulation_results, print_pdf=True)
     
+
     #########################################################
     #  TASK 5: Simulate transmission over a binary symmetric channel
     print("\n# Task 5 # Simulate transmission over a binary symmetric channel:")

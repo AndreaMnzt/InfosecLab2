@@ -70,12 +70,18 @@ def pdf_computation(simulation_results, print_pdf=True):
 
         ax1=plt.subplot(2,1,1)
         ax1.bar(p_u.keys(), p_u.values())
-       
+        ax1.set_xticks([])
+        ax1.set_xlabel('Messages') 
+        ax1.set_ylabel('Frequencies') 
+
 
         print("Marginal pdf of z")
-        ax2=plt.subplot(2,1,2)
-        
+        ax2=plt.subplot(2,1,2)        
         ax2.bar(p_z.keys(), p_z.values())
+        ax2.set_xticks([])
+        ax2.set_xlabel('Codewords') 
+        ax2.set_ylabel('Frequencies') 
+
         plt.show()
 
 
@@ -92,7 +98,7 @@ def simulation(print_results_of_simulation = True):
     """
 
     _, Z_cardinality = computeConfigDistrib(7,3)
-    Z_cardinality = int(Z_cardinality)
+    Z_cardinality = 2*int(Z_cardinality)
     u_s = [ stringToBits('000'),
             stringToBits('001'),
             stringToBits('010'),
